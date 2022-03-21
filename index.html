@@ -10,16 +10,31 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-    <title>Document</title>
+    <title>Quiz Maker</title>
   </head>
   <body>
-    <main class="container mt-4">
-      <button type="button" id="quiz-button" class="btn btn-primary mt-4">
-        Start Quiz
-      </button>
+    <header class="d-flex" id="header">
+      <p>
+        View high scores
+      </p>
       <div class="container">
         <p>Timer: <span id="time"></span></p>
       </div>
+    </header>
+    <main class="container mt-4" id="main">
+      <div id="main-text">
+        <h1>
+          Coding Quiz Challenge
+        </h1>
+        <p>
+          Try to answer the following code-related questions within the time limit. </br>
+          Keep in mind that incorrect answers will penalize your score/time </br>
+          by five seconds!
+        </p>
+        <button type="button" id="quiz-button" class="btn btn-primary mt-4">
+          Start Quiz
+        </button> 
+      </div>           
       <div class="container mt-4" id="quiz-container"></div>
     </main>
     <script src="script.js"></script>

@@ -24,65 +24,142 @@ var questionsArray = [
 ];
 var timerTarget;
 
+var mainContainer = document.querySelector("#main");
 var quizBtn = document.getElementById("quiz-button");
 var quizContainer = document.querySelector("#quiz-container");
 var timer = document.querySelector("#time");
-var quizTime = questionsArray.length * 15;
+var quizTime = questionsArray.length * 45;
 timer.textContent = quizTime;
 
 var currentQuestionIndex = 0;
+var mainContainerText = document.querySelector("#main-text");
+var headerText = document.querySelector("#header");
+
 function startQuiz() {
+  // debugger;
+  mainContainerText.textContent = "";
   timerTarget = setInterval(startTimer, 1000);
+  // quizTime = questionsArray.length * 15;
   generateQuestion();
+  
 }
 
 function startTimer() {
   quizTime--;
+  if (quizTime < 0) {
+    quizContainer.innerHTML = "The Game Is Over";
+    clearInterval(timerTarget);    
+    return;  
+  }
   timer.textContent = quizTime;
 }
 
+var scorePage = function() {
+  mainContainer.innerHTML = "";
+  var scorePageTitle = document.createElement("h2");
+  var scorePageText = document.createElement("p");
+  var enterInitials = document.createElement("p");
+  var inputInitials = document.createElement("input");
+  inputInitials.setAttribute("type", "text"); 
+  inputInitials.setAttribute("id", "input-value");
+  inputInitials.setAttribute("name", "input-name");
+  var submitButton = document.createElement("button");
+  submitButton.setAttribute("type","submit");
+
+  scorePageTitle.textContent = "All done!";
+  scorePageText.textContent = ["Your final score is" + quizTime + "."];
+  enterInitials.textContent = "Enter initials:";
+  submitButton.textContent = "Submit";
+
+  mainContainer.append(scorePageTitle);
+  mainContainer.append(scorePageText);
+  mainContainer.append(enterInitials);
+  mainContainer.append(inputInitials);
+  mainContainer.append(submitButton);
+
+  var storeRecord = function() {
+    var input = document.getElementById("input-value");    
+    localStorage.setItem(input.value, quizTime);
+  } 
+  submitButton.addEventListener("click", storeRecord);
+  submitButton.addEventListener("click", highScores);
+}
+
+var highScores = function() {
+  mainContainer.innerHTML = "";
+  headerText.textContent = "";
+  var scorePageTitle = document.createElement("h2");  
+  var goBackButton = document.createElement("button");
+  goBackButton.setAttribute("goBackBtn","");
+  var clearButton = document.createElement("button");
+  clearButton.setAttribute("clearBtn", "");
+
+  scorePageTitle.textContent = "High scores";
+  goBackButton.textContent = "Go back";
+  clearButton.textContent = "Clear high scores";
+
+  mainContainer.append(scorePageTitle);
+  mainContainer.append(goBackButton);
+  mainContainer.append(clearButton);
+
+  goBackButton.addEventListener("click", function(){location.reload()});
+}
+
 function endGame() {
-  if (currentQuestionIndex >= questionsArray.length - 1) {
-    quizContainer.innerHTML = "Quiz Over";
+  if (currentQuestionIndex === questionsArray.length) { 
+    // quizContainer.innerHTML = "Quiz Over";
     clearInterval(timerTarget);
+    scorePage();
     return;
   } else {
-    generateQuestion();
-  }
+    generateQuestion();    
+  }  
+  // timer.textContent = quizTime;
 }
 
 function generateQuestion() {
-  console.log(currentQuestionIndex);
-
+  
   var quizQuestion = document.createElement("paragraph");
   quizQuestion.textContent = questionsArray[currentQuestionIndex].question;
+
   var createOrderedList = document.createElement("ol");
-  for (
-    var i = 0;
-    i < questionsArray[currentQuestionIndex].choices.length;
-    i++
-  ) {
+
+  for (var i = 0; i < questionsArray[currentQuestionIndex].choices.length; i++) {
     var currentChoice = document.createElement("li");
     currentChoice.textContent = questionsArray[currentQuestionIndex].choices[i];
-    createOrderedList.append(currentChoice);
-  }
+    createOrderedList.append(currentChoice);    
+  }  
   quizContainer.append(quizQuestion);
   quizContainer.append(createOrderedList);
 }
 
+var correctOrWrong = function() {
+  var answerTextFading = setTimeout(function (){
+  answerText.textContent="";}, 2000);
+  answerTextFading;
+}
+var answerText = document.createElement("p"); 
+
 function checkAnswer(event) {
   currentQuestionIndex++;
-  var currentAnswer = event.target.textContent;
-  if (currentAnswer === questionsArray[currentQuestionIndex].answer) {
-    quizContainer.innerHTML = "you are correct";
+  var currentAnswer = event.target.textContent;  
+    
+  if (currentAnswer === questionsArray[currentQuestionIndex-1].answer) {
+    answerText.textContent = "Correct!";
     quizContainer.innerHTML = "";
-    endGame();
+    mainContainer.append(answerText);  
+    correctOrWrong();    
+    endGame();     
   } else {
     quizTime -= 5;
+    answerText.textContent = "Wrong!"
     quizContainer.innerHTML = "";
-    endGame();
-  }
+    mainContainer.append(answerText);
+    correctOrWrong();
+    endGame();    
+  }  
 }
 
 quizBtn.addEventListener("click", startQuiz);
 quizContainer.addEventListener("click", checkAnswer);
+
