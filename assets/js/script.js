@@ -23,6 +23,8 @@ var questionsArray = [
   },
 ];
 var timerTarget;
+var scores = [];
+var scoreIdCounter = 0;
 
 var mainContainer = document.querySelector("#main");
 var quizBtn = document.getElementById("quiz-button");
@@ -54,6 +56,34 @@ function startTimer() {
   timer.textContent = quizTime;
 }
 
+var storeRecord = function() {
+  var input = document.getElementById("input-value").value;    
+  localStorage.setItem("scores", scores);  
+  
+
+  var scoreListEl = document.createElement("ol");
+  var listItemEl = document.createElement("li");
+  listItemEl.setAttribute("list-id", scoreIdCounter);
+  scoreListEl.append(listItemEl);
+  mainContainer.append(scoreListEl);
+  listItemEl.textContent = scores[scoreIdCounter];
+  
+  var scoreList = {
+    name: input,
+    score: quizTime
+  };
+
+  scoreList.id = scoreIdCounter;
+  scores.push(scoreList);
+  scoreIdCounter++;
+
+  // for (var i = 0; i < scores.length; i++) {
+  //   if (scores[i].id === parseInt(scoreList.Id)) {
+  //     tasks[i].name = taskName;
+  //     tasks[i].type = taskType;
+  //   }
+} 
+
 var scorePage = function() {
   mainContainer.innerHTML = "";
   var scorePageTitle = document.createElement("h2");
@@ -77,13 +107,13 @@ var scorePage = function() {
   mainContainer.append(inputInitials);
   mainContainer.append(submitButton);
 
-  var storeRecord = function() {
-    var input = document.getElementById("input-value");    
-    localStorage.setItem(input.value, quizTime);
-  } 
   submitButton.addEventListener("click", storeRecord);
   submitButton.addEventListener("click", highScores);
 }
+
+// var clearScoreList = function() {
+//   var deletedList = [];
+// }
 
 var highScores = function() {
   mainContainer.innerHTML = "";
@@ -94,7 +124,8 @@ var highScores = function() {
   var clearButton = document.createElement("button");
   clearButton.setAttribute("clearBtn", "");
 
-  scorePageTitle.textContent = "High scores";
+  scorePageTitle.textContent = "High scores"; 
+ 
   goBackButton.textContent = "Go back";
   clearButton.textContent = "Clear high scores";
 
@@ -103,6 +134,7 @@ var highScores = function() {
   mainContainer.append(clearButton);
 
   goBackButton.addEventListener("click", function(){location.reload()});
+  clearButton.addEventListener("click", function(){localStorage.clear()});
 }
 
 function endGame() {
@@ -162,4 +194,3 @@ function checkAnswer(event) {
 
 quizBtn.addEventListener("click", startQuiz);
 quizContainer.addEventListener("click", checkAnswer);
-
