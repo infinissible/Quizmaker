@@ -151,18 +151,31 @@ function endGame() {
 
 function generateQuestion() {
   
+  var questionContainer = document.createElement("div");
   var quizQuestion = document.createElement("paragraph");
-  quizQuestion.textContent = questionsArray[currentQuestionIndex].question;
-
+  var text = document.createElement("p"); 
+  text.classList.add("h1") 
+  text.textContent = questionsArray[currentQuestionIndex].question;
+  quizContainer.append(questionContainer);
+  questionContainer.append(quizQuestion);
+  
   var createOrderedList = document.createElement("ol");
+  createOrderedList.classList = "p-4"  
+  questionContainer.append(createOrderedList);
 
   for (var i = 0; i < questionsArray[currentQuestionIndex].choices.length; i++) {
     var currentChoice = document.createElement("li");
+    currentChoice.classList = "h3"
+    var btn = document.createElement("button");
+    btn.classList = "btn btn-primary btn-lg d-flex m-2 p-3 w"
     currentChoice.textContent = questionsArray[currentQuestionIndex].choices[i];
-    createOrderedList.append(currentChoice);    
+    btn.append(currentChoice);
+    createOrderedList.append(btn);    
   }  
-  quizContainer.append(quizQuestion);
-  quizContainer.append(createOrderedList);
+
+  quizQuestion.append(text);
+  // quizContainer.append(quizQuestion);
+  // quizContainer.append(createOrderedList);
 }
 
 var correctOrWrong = function() {
