@@ -167,7 +167,7 @@ function generateQuestion() {
     var currentChoice = document.createElement("li");
     currentChoice.classList = "h3"
     var btn = document.createElement("button");
-    btn.classList = "btn btn-primary btn-lg d-flex m-2 p-3 w"
+    btn.classList = "btn btn-primary btn-lg d-flex m-2 p-3 w list-style"
     currentChoice.textContent = questionsArray[currentQuestionIndex].choices[i];
     btn.append(currentChoice);
     createOrderedList.append(btn);    
@@ -184,6 +184,7 @@ var correctOrWrong = function() {
   answerTextFading;
 }
 var answerText = document.createElement("p"); 
+answerText.classList = "answer h2";
 
 function checkAnswer(event) {
   currentQuestionIndex++;

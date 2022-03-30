@@ -1,6 +1,23 @@
 .w {
-    width: 150px; 
+    width: 200px; 
 }
    
+.list-style {
+    list-style-position: inside;
+}
 
-  
+.center {
+    text-align: center;
+}
+
+.left {
+    text-align: left;
+}
+
+.answer {
+    border-top: solid darkgray;
+    margin: 10px;
+    padding: 10px 80% 10px 30px;
+    color: darkgray;
+    font-style: italic;
+}
