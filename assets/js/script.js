@@ -86,7 +86,7 @@ var storeRecord = function() {
 
 var scorePage = function() {
   mainContainer.innerHTML = "";
-  var scorePageTitle = document.createElement("h2");
+  var scorePageTitle = document.createElement("h1");
   var scorePageText = document.createElement("p");
   var enterInitials = document.createElement("p");
   var inputInitials = document.createElement("input");
@@ -180,7 +180,7 @@ function generateQuestion() {
 
 var correctOrWrong = function() {
   var answerTextFading = setTimeout(function (){
-  answerText.textContent="";}, 2000);
+  answerText.textContent="", answerText.classList.add("none");}, 2000);
   answerTextFading;
 }
 var answerText = document.createElement("p"); 
@@ -189,7 +189,8 @@ answerText.classList = "answer h2";
 function checkAnswer(event) {
   currentQuestionIndex++;
   var currentAnswer = event.target.textContent;  
-    
+  answerText.classList.remove("none");
+  
   if (currentAnswer === questionsArray[currentQuestionIndex-1].answer) {
     answerText.textContent = "Correct!";
     quizContainer.innerHTML = "";
